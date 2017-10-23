@@ -6,7 +6,7 @@
 # alternatively, you can just create the vm's one at a time manually...
 
 domain = 'example.com'
-box = 'ubuntu/xenial64'
+box = 'mkutsevol/xenial'
 ram = 512
 
 node_components = [
