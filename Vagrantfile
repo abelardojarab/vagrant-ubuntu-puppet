@@ -25,7 +25,7 @@ Vagrant.configure("2") do |config|
       node_config.vm.box = node[:box]
       node_config.vm.hostname = node[:hostname] + '.' + domain
 
-      node_config.vm.network :public_network, :bridge => 'virbr0', :dev => 'virbr0', :libvirt__network_name => "default"
+      # node_config.vm.network :public_network, :bridge => 'virbr0', :dev => 'virbr0', :libvirt__network_name => "default"
       node_config.vm.network :private_network, ip: node[:ip]
       if node[:fwdhost]
         node_config.vm.network :forwarded_port, guest: node[:fwdguest], host: node[:fwdhost]
@@ -51,13 +51,13 @@ Vagrant.configure("2") do |config|
       end
 
       node_config.vm.provision :shell do |s|
-        s.path "provision/setup.sh"
+        s.path = "provision/setup.sh"
       end
 
-      node_config.vm.provision :puppet do |puppet|
-        puppet.manifests_path = 'provision/manifests'
-        puppet.module_path = 'provision/modules'
-      end
+      # node_config.vm.provision :puppet do |puppet|
+      #   puppet.manifests_path = 'provision/manifests'
+      #   puppet.module_path = 'provision/modules'
+      # end
 
     end
   end
