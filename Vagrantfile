@@ -7,10 +7,11 @@
 
 domain = 'local'
 box = 'mkutsevol/xenial'
-ram = 512
+cpus = 2
+ram = 1024
 
 node_components = [
-  {:hostname => 'guest0',  :ip => '172.16.32.10', :box => box, :fwdhost => 8140, :fwdguest => 8140, :ram => ram},
+  {:hostname => 'guest0',  :ip => '172.16.32.10', :box => box, :fwdhost => 8140, :fwdguest => 8140, :cpus => cpus, :ram => ram},
   # {:hostname => 'guest1', :ip => '172.16.32.11', :box => box},
   # {:hostname => 'guest2', :ip => '172.16.32.12', :box => box},
 ]
@@ -30,6 +31,8 @@ Vagrant.configure("2") do |config|
         node_config.vm.network :forwarded_port, guest: node[:fwdguest], host: node[:fwdhost]
       end
 
+      node_config.vm.synced_folder "./www", "/var/www", create: true, group: "www-data", owner: "www-data"
+
       memory = node[:ram] ? node[:ram] : 256;
       cpus = node[:cpus] ? node[:cpus] : 4;
       node_config.vm.provider :libvirt do |libvirt, override|
@@ -45,15 +48,17 @@ Vagrant.configure("2") do |config|
 
         # Only available with KVM
         # libvirt.cpu_mode = "host-passthrough"
+      end
 
-        # override.vm.box = node[:image]
-        # override.nfs.functional = node[:nfs]
+      node_config.vm.provision :shell do |s|
+        s.path "provision/setup.sh"
       end
 
       node_config.vm.provision :puppet do |puppet|
         puppet.manifests_path = 'provision/manifests'
         puppet.module_path = 'provision/modules'
       end
+
     end
   end
 end
