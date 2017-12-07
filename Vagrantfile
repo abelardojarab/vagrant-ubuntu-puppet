@@ -6,7 +6,7 @@
 # alternatively, you can just create the vm's one at a time manually...
 
 domain = 'local'
-box = 'mkutsevol/xenial'
+box = 'generic/ubuntu1604'
 cpus = 2
 ram = 1024
 
@@ -52,8 +52,7 @@ Vagrant.configure("2") do |config|
         # connecting via ssh.
         libvirt.username = "root"
 
-        # Libvirt storage pool name, where box image and instance snapshots will
-        # be stored.
+        # Libvirt storage pool name
         libvirt.storage_pool_name = "default"
 
         # System configuration
@@ -69,8 +68,8 @@ Vagrant.configure("2") do |config|
       node_config.vm.provision "shell", inline: <<-SHELL
           if [ ! -f /usr/sbin/puppet ]; then
                 cd /tmp
-                wget http://apt.puppetlabs.com/puppetlabs-release-pc1-trusty.deb
-                dpkg -i /tmp/puppetlabs-release-pc1-trusty.deb
+                wget http://apt.puppetlabs.com/puppetlabs-release-pc1-xenial.deb
+                dpkg -i /tmp/puppetlabs-release-pc1-xenial.deb
                 apt-get update
                 apt-get install -y puppet-agent
                 ln -fs /opt/puppetlabs/bin/puppet /usr/sbin/puppet
@@ -82,6 +81,7 @@ Vagrant.configure("2") do |config|
         s.path = "provision/setup.sh"
       end
 
+      # # Puppet provisioning
       # node_config.vm.provision :puppet do |puppet|
       #   puppet.manifests_path = 'provision/manifests'
       #   puppet.module_path = 'provision/modules'
