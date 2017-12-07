@@ -11,7 +11,7 @@ cpus = 2
 ram = 1024
 
 node_components = [
-  {:hostname => 'vm0',  :ip => '172.16.32.10', :box => box, :fwdhost => 8140, :fwdguest => 8140, :cpus => cpus, :ram => ram},
+  {:hostname => 'vm0',  :ip => '172.16.32.10', :box => box, :fwdhost => 2222, :fwdguest => 22, :cpus => cpus, :ram => ram},
   # {:hostname => 'vm1', :ip => '172.16.32.11', :box => box},
   # {:hostname => 'vm2', :ip => '172.16.32.12', :box => box},
 ]
