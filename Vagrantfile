@@ -25,8 +25,6 @@ Vagrant.configure("2") do |config|
       node_config.vm.box = node[:box]
       node_config.vm.hostname = node[:hostname] + '.' + domain
 
-      node_config.vm.network :public_network
-
       node_config.vm.network :private_network,
                              ip: node[:ip],
                              libvirt__forward_mode: 'nat',
@@ -45,11 +43,19 @@ Vagrant.configure("2") do |config|
 
         # comment out host to connect directly with qemu:///system
         # libvirt.host = "localhost"
-        libvirt.connect_via_ssh = false     # also needed
-        libvirt.username = "abelardojara"
+
+        # If use ssh tunnel to connect to Libvirt.
+        libvirt.connect_via_ssh = false
+
+        # The username and password to access Libvirt. Password is not used when
+        # connecting via ssh.
+        libvirt.username = "root"
+
+        # Libvirt storage pool name, where box image and instance snapshots will
+        # be stored.
+        libvirt.storage_pool_name = "default"
 
         # System configuration
-        libvirt.storage_pool_name = "default"
         libvirt.cpus = cpus.to_s
         libvirt.memory = memory.to_i
         libvirt.nested = true
