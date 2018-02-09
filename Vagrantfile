@@ -28,6 +28,7 @@ Vagrant.configure("2") do |config|
 
       node_config.vm.network :private_network,
                              ip: node[:ip],
+                             :autostart => true,
                              libvirt__forward_mode: 'nat',
                              libvirt__dhcp_enabled: true
       if node[:fwdhost]
