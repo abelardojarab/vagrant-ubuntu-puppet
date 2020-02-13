@@ -7,8 +7,8 @@
 
 domain = 'local'
 box = 'generic/ubuntu1804'
-cpus = 2
-ram = 1024
+cpus = 8
+ram = 32000
 
 node_components = [
   {:hostname => 'vm0',  :ip => '192.168.122.20', :box => box, :fwdhost => 2222, :fwdguest => 22, :cpus => cpus, :ram => ram},
@@ -37,8 +37,8 @@ Vagrant.configure("2") do |config|
         node_config.vm.network :forwarded_port, guest: node[:fwdguest], host: node[:fwdhost]
       end
 
-      node_config.vm.synced_folder "./www", "/var/www", create: true, group: "www-data", owner: "www-data"
-      node_config.vm.synced_folder ".", "/vagrant", type: 'rsync'
+      #node_config.vm.synced_folder "./www", "/var/www", create: true, group: "www-data", owner: "www-data"
+      #node_config.vm.synced_folder ".", "/vagrant", type: 'rsync'
 
       memory = node[:ram] ? node[:ram] : ram;
       cpus = node[:cpus] ? node[:cpus] : cpus;
@@ -71,11 +71,12 @@ Vagrant.configure("2") do |config|
       node_config.vm.provision "shell", inline: <<-SHELL
           if [ ! -f /usr/sbin/puppet ]; then
                 cd /tmp
-                wget http://apt.puppetlabs.com/puppetlabs-release-pc1-xenial.deb
-                dpkg -i /tmp/puppetlabs-release-pc1-xenial.deb
+                wget https://apt.puppetlabs.com/puppet5-release-bionic.deb
+                sudo dpkg -i puppet5-release-bionic.deb
                 apt-get update
                 apt-get install -y puppet-agent
                 ln -fs /opt/puppetlabs/bin/puppet /usr/sbin/puppet
+                apt-get install zabbix-agent openconnect nfs-common nfs-kernel-server
           fi
       SHELL
 
