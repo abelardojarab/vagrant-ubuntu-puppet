@@ -6,7 +6,7 @@
 # alternatively, you can just create the vm's one at a time manually...
 
 domain = 'local'
-box = 'generic/ubuntu1604'
+box = 'generic/ubuntu1804'
 cpus = 2
 ram = 1024
 
@@ -40,8 +40,8 @@ Vagrant.configure("2") do |config|
       node_config.vm.synced_folder "./www", "/var/www", create: true, group: "www-data", owner: "www-data"
       node_config.vm.synced_folder ".", "/vagrant", type: 'rsync'
 
-      memory = node[:ram] ? node[:ram] : 256;
-      cpus = node[:cpus] ? node[:cpus] : 4;
+      memory = node[:ram] ? node[:ram] : ram;
+      cpus = node[:cpus] ? node[:cpus] : cpus;
       node_config.vm.provider :libvirt do |libvirt, override|
         libvirt.driver = "kvm"
 
