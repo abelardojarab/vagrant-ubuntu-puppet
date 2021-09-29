@@ -6,7 +6,7 @@
 # alternatively, you can just create the vm's one at a time manually...
 
 domain = 'local'
-box = 'generic/ubuntu1804'
+box = 'generic/ubuntu2004'
 cpus = 2
 ram = 2000
 
@@ -71,12 +71,11 @@ Vagrant.configure("2") do |config|
       node_config.vm.provision "shell", inline: <<-SHELL
           if [ ! -f /usr/sbin/puppet ]; then
                 cd /tmp
-                wget https://apt.puppetlabs.com/puppet5-release-bionic.deb
-                sudo dpkg -i puppet5-release-bionic.deb
+                wget https://apt.puppetlabs.com/puppet7-release-focal.deb
+                sudo dpkg -i puppet7-release-focal.deb
                 apt-get update
                 apt-get install -y puppet-agent
                 ln -fs /opt/puppetlabs/bin/puppet /usr/sbin/puppet
-                apt-get install zabbix-agent openconnect nfs-common nfs-kernel-server
           fi
       SHELL
 
